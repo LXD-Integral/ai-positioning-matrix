@@ -8,6 +8,8 @@ stance on **AI development pace** (Accelerationist ↔ Decelerationist) and **AI
 
 No accounts, no tracking, and **no AI at runtime** — all feedback is pre-written.
 
+![The AI Positioning Matrix assessment screen](docs/screenshot.png)
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLXD-Integral%2Fai-positioning-matrix&env=KV_REST_API_URL,KV_REST_API_TOKEN&envDescription=Redis%2FKV%20credentials%20for%20shared%20dots%20(see%20README))
 
 > Code is licensed **MIT**; the assessment content is licensed **CC BY-SA 4.0**. See
