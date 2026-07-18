@@ -1,0 +1,47 @@
+{
+  "name": "ai-positioning-matrix",
+  "version": "1.0.0",
+  "description": "An interactive 12-question assessment that positions people on a 2D matrix of their stance on AI development pace and AI's nature, then offers reflection questions instead of a verdict.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LXD-Integral/ai-positioning-matrix.git"
+  },
+  "keywords": [
+    "nextjs",
+    "ai",
+    "assessment",
+    "matrix",
+    "visualization"
+  ],
+  "author": "Dan Bashaw (LXD Integral)",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/LXD-Integral/ai-positioning-matrix/issues"
+  },
+  "homepage": "https://github.com/LXD-Integral/ai-positioning-matrix#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.11",
+    "@types/react-dom": "^19.1.8",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/kv": "^3.0.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.34.0",
+    "eslint-config-next": "^15.5.13",
+    "next": "^15.5.13",
+    "postcss": "^8.5.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.12",
+    "typescript": "^5.9.2"
+  }
+}
