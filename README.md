@@ -181,6 +181,7 @@ PRs that widen the outbound data surface need a clear justification.
 - **Code** (source, config, build tooling): [MIT](LICENSE).
 - **Assessment content** (the wording of the questions, stance labels, and reflection/feedback
   text — primarily `src/lib/questions.ts` and `src/lib/feedback.ts`):
-  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). See
+  [LICENSE-CONTENT.md](LICENSE-CONTENT.md).
 
 Built by [LXD Integral](https://lxdintegral.com). Contact: dan@lxdintegral.com
