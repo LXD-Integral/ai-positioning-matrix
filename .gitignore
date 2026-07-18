@@ -34,3 +34,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local-only internal working notes — NEVER publish
+# (kept on disk for context/reference; excluded from the public repo)
+/CLAUDE.md
+/docs/internal/
+
+# local Claude Code config
+/.claude/
