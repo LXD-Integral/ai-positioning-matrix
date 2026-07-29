@@ -39,10 +39,8 @@ export default function Home() {
   }
 
   const handleSubmit = async () => {
-    if (!userName.trim()) {
-      alert('Please enter your name or handle')
-      return
-    }
+    // Name is optional: fall back to "Your Stance" when left empty
+    const effectiveName = userName.trim() || 'Your Stance'
 
     // Calculate position based on responses
     let accelerationistScore = 0
@@ -72,7 +70,7 @@ export default function Home() {
     
     // Store result data
     const result = {
-      name: userName.trim(),
+      name: effectiveName,
       color: userColor,
       position: { x: xPosition, y: yPosition },
       responses: Object.values(responses),
@@ -166,7 +164,7 @@ export default function Home() {
       <section className="setup-section" aria-labelledby="setup-heading">
         <h2 id="setup-heading" className="sr-only">Personal Information Setup</h2>
         <div className="input-group">
-          <label htmlFor="userName">Enter your name or handle:</label>
+          <label htmlFor="userName">Enter your name or handle (optional):</label>
           <input
             type="text"
             id="userName"
@@ -231,7 +229,6 @@ export default function Home() {
         <button 
           className="submit-button"
           onClick={handleSubmit}
-          disabled={!userName.trim()}
         >
           View My Position
         </button>
