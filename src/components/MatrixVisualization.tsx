@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import type { MatrixDot } from '@/types'
+import { COLOR_WINDOW_DAYS } from '@/lib/displayPolicy'
 
+// Omit userPosition for OBSERVER MODE: community dots only, no user dot/label
+// (used by the quiz-page lightbox).
 interface MatrixVisualizationProps {
-  userPosition: { x: number; y: number }
-  userName: string
-  userColor: string
+  userPosition?: { x: number; y: number }
+  userName?: string
+  userColor?: string
   currentDotId?: string | null
   showOtherDots?: boolean
 }
@@ -21,11 +24,10 @@ export default function MatrixVisualization({
   const [otherDots, setOtherDots] = useState<MatrixDot[]>([])
   const [loading, setLoading] = useState(true)
 
-  // Dot rendering policy (2026-07-17). Visibility window is 90 days (enforced
-  // server-side in getVisibleDots); within that window:
+  // Dot rendering policy — windows are set in src/lib/displayPolicy.ts.
+  // Visibility is enforced server-side in getVisibleDots; within it:
   //   - Recent (≤ COLOR_WINDOW_DAYS): 50% opacity in the user's chosen color
   //   - Old (> COLOR_WINDOW_DAYS): 15% opacity gray, rendered behind recent dots
-  const COLOR_WINDOW_DAYS = 30
   const DOT_RADIUS_RECENT = 9 // other users' recent dots
   const DOT_RADIUS_OLD = 12 // other users' old (faded) dots
   const DOT_RADIUS_USER = 18 // current user's dot
@@ -87,9 +89,13 @@ export default function MatrixVisualization({
     }
   }, [showOtherDots, currentDotId])
 
-  // User dot position
-  const userX = coordToPixel(userPosition.x)
-  const userY = coordToPixel(userPosition.y, true)
+  // User dot position (absent in observer mode)
+  const userX = userPosition ? coordToPixel(userPosition.x) : null
+  const userY = userPosition ? coordToPixel(userPosition.y, true) : null
+
+  const ariaLabel = userPosition
+    ? `AI Positioning Matrix showing ${userName} positioned at coordinates ${userPosition.x.toFixed(1)}, ${userPosition.y.toFixed(1)} ${showOtherDots ? `along with ${otherDots.length} other participants` : ''}`
+    : `AI Positioning Matrix showing ${otherDots.length} participants`
 
   return (
     <div className="w-full h-full">
@@ -99,7 +105,7 @@ export default function MatrixVisualization({
         className="w-full h-full"
         viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
         role="img"
-        aria-label={`AI Positioning Matrix showing ${userName} positioned at coordinates ${userPosition.x.toFixed(1)}, ${userPosition.y.toFixed(1)} ${showOtherDots ? `along with ${otherDots.length} other participants` : ''}`}
+        aria-label={ariaLabel}
       >
         {/* Clean white background */}
         <rect width="100%" height="100%" fill="white" />
@@ -328,27 +334,31 @@ export default function MatrixVisualization({
             )
           })}
 
-        {/* User dot - prominent, always on top */}
-        <circle
-          cx={userX}
-          cy={userY}
-          r={DOT_RADIUS_USER}
-          fill={userColor}
-          className="user-dot"
-        />
+        {/* User dot - prominent, always on top (skipped in observer mode) */}
+        {userX !== null && userY !== null && (
+          <>
+            <circle
+              cx={userX}
+              cy={userY}
+              r={DOT_RADIUS_USER}
+              fill={userColor}
+              className="user-dot"
+            />
 
-        {/* User label positioned as in Figma */}
-        <text
-          x={userX + 35}
-          y={userY - 15}
-          fontSize="20"
-          fill="#000"
-          fontFamily="Maven Pro"
-          fontWeight="normal"
-          className="user-label text-black text-xl font-normal font-maven-pro leading-tight"
-        >
-          {userName}
-        </text>
+            {/* User label positioned as in Figma */}
+            <text
+              x={userX + 35}
+              y={userY - 15}
+              fontSize="20"
+              fill="#000"
+              fontFamily="Maven Pro"
+              fontWeight="normal"
+              className="user-label text-black text-xl font-normal font-maven-pro leading-tight"
+            >
+              {userName}
+            </text>
+          </>
+        )}
       </svg>
     </div>
   )

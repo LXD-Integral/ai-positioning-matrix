@@ -442,6 +442,12 @@ html {
   .animate-pulse {
     animation: none;
   }
+
+  /* SMIL pulse on the matrix lightbox button (not covered by the CSS
+     animation overrides above) */
+  .pulse-ring {
+    display: none;
+  }
 }
 
 /* High contrast mode support */
@@ -727,6 +733,108 @@ input:focus-visible,
   .print-only {
     display: none !important;
   }
+}
+
+/* Matrix lightbox launch button + overlay (quiz page) */
+.quiz-header {
+  position: relative;
+}
+
+.matrix-lightbox-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 170px;
+  padding: 8px;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.matrix-lightbox-button:hover,
+.matrix-lightbox-button:focus-visible {
+  background: #eef4fb;
+  transform: translateY(-1px);
+}
+
+.matrix-lightbox-thumb {
+  border-radius: 6px;
+  border: 1.5px solid #d4dbe3;
+  box-shadow: 0 1px 3px rgba(44, 62, 80, 0.18);
+}
+
+.matrix-lightbox-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2c3e50;
+  text-align: center;
+  line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+  /* Static flow, centered below the subtitle, so the button never overlaps
+     the logo/title */
+  .matrix-lightbox-button {
+    position: static;
+    margin: 0 auto 24px;
+  }
+}
+
+.matrix-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(44, 62, 80, 0.6);
+}
+
+.matrix-lightbox-panel {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 36px 24px 12px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.matrix-lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  padding: 4px 10px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  font-size: 28px;
+  line-height: 1;
+  color: #6c757d;
+  cursor: pointer;
+}
+
+.matrix-lightbox-close:hover,
+.matrix-lightbox-close:focus-visible {
+  background: #eef4fb;
+  color: #2c3e50;
+}
+
+.matrix-lightbox-caption {
+  margin-top: 8px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9em;
 }
 
 @layer utilities {

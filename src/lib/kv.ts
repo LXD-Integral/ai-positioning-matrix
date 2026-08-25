@@ -1,12 +1,15 @@
 import { kv } from '@vercel/kv'
 import type { MatrixDot } from '@/types'
+import { VISIBILITY_DAYS } from './displayPolicy'
 
-// Retention & visibility policy (2026-07-17):
+// Retention & visibility policy (2026-08-25):
 // - Dots are stored PERMANENTLY (no TTL). The archive accumulates indefinitely.
-// - The matrix renders only a bounded VISIBILITY window (see getVisibleDots).
-// - The CSV export reads the full archive (see getExportDots).
-// Retention != visibility: a dot outlives its time on the matrix.
-export const VISIBILITY_DAYS = 90
+// - The matrix VISIBILITY window is set in displayPolicy.ts (currently
+//   indefinite — getVisibleDots returns the full archive; a numeric value
+//   restores the bounded window).
+// - The CSV export always reads the full archive (see getExportDots).
+// Retention != visibility: retention never changes; only display policy does.
+export { VISIBILITY_DAYS }
 
 // Redis keys
 const DOT_KEY = (id: string) => `dot:${id}`
@@ -79,13 +82,19 @@ async function fetchDots(ids: string[]): Promise<StoredDot[]> {
   return dots.filter((dot): dot is StoredDot => !!dot)
 }
 
-// Dots VISIBLE on the matrix: those created within the visibility window.
-// Bounded ZSET range keeps this query cheap as the archive grows.
-export async function getVisibleDots(days: number = VISIBILITY_DAYS): Promise<MatrixDot[]> {
+// Dots VISIBLE on the matrix. days = null means no window: return the full
+// archive (rank-based ZSET scan, same pattern as getExportDots). A numeric
+// days keeps the bounded byScore range, which stays cheap as the archive grows.
+export async function getVisibleDots(days: number | null = VISIBILITY_DAYS): Promise<MatrixDot[]> {
   try {
-    const now = Date.now()
-    const cutoff = now - days * 24 * 60 * 60 * 1000
-    const ids = (await kv.zrange<string[]>(DOTS_BY_TIME, cutoff, now, { byScore: true })) || []
+    let ids: string[]
+    if (days === null) {
+      ids = (await kv.zrange<string[]>(DOTS_BY_TIME, 0, -1)) || []
+    } else {
+      const now = Date.now()
+      const cutoff = now - days * 24 * 60 * 60 * 1000
+      ids = (await kv.zrange<string[]>(DOTS_BY_TIME, cutoff, now, { byScore: true })) || []
+    }
     const dots = await fetchDots(ids)
     return dots.map(toMatrixDot)
   } catch (error) {

@@ -5,6 +5,7 @@ import { QUESTIONS, shuffleArray } from '@/lib/questions'
 import type { Question } from '@/types'
 import ColorPicker from '@/components/ColorPicker'
 import QuestionSlider from '@/components/QuestionSlider'
+import MatrixLightbox from '@/components/MatrixLightbox'
 import Image from 'next/image'
 
 export default function Home() {
@@ -145,7 +146,7 @@ export default function Home() {
 
   return (
     <div className="container">
-      <header>
+      <header className="quiz-header">
         <div className="text-center mb-8">
           <Image
             src="/humansplusai-logo.png"
@@ -158,6 +159,8 @@ export default function Home() {
         </div>
         <h1>What's your AI Stance?</h1>
         <p className="subtitle">Explore your point of view on AI and its future!</p>
+        {/* Absolute top-right on desktop; static, centered below the subtitle on mobile */}
+        <MatrixLightbox />
       </header>
 
       {/* User Setup */}
