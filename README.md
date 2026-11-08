@@ -12,6 +12,13 @@ No accounts, no tracking, and **no AI at runtime** — all feedback is pre-writt
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLXD-Integral%2Fai-positioning-matrix&env=KV_REST_API_URL,KV_REST_API_TOKEN&envDescription=Redis%2FKV%20credentials%20for%20shared%20dots%20(see%20README))
 
+> **Successor project:** this classic tool is frozen at release
+> [`v1.0.0`](https://github.com/LXD-Integral/ai-positioning-matrix/releases/tag/v1.0.0)
+> (branch `classic`) and stays live at https://aipos-nu.vercel.app. Active development
+> continues in [**Exploratory**](https://github.com/LXD-Integral/exploratory), a two-axis
+> concept engine whose first topic pack, *Exploratory: AI Stance*, grows from this
+> assessment. Fork from `classic` if you want the simple version.
+
 > Code is licensed **MIT**; the assessment content is licensed **CC BY-SA 4.0**. See
 > [License](#license).
 
